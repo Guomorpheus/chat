@@ -37,11 +37,13 @@
 
 ### Step 1 在终端中启动数据库
 
-> (推荐)方式1：直接使用 chat/tests/nlu.db 这个已经初始化的数据库
->> 使用方法：对于安装版的 neo4j 手选 nlu.db 所在路径进行连接；对于免安装版本的将 nlu.db 放到 neo4j/data/databases/ 目录下并修改 neo4j/conf/neo4j.conf 文件中
+直接使用 chat/tests/nlu.db 这个已经初始化的数据库
+>> 使用方法：对于安装版的 neo4j 手选 nlu.db 所在路径进行连接；对于免安装版本的将 nlu.db 放到 neo4j/data/databases/ 目录下并修改 neo4j/conf/neo4j.conf 文件中，修改完毕后，需要重启neo4j;
 
     # The name of the database to mount
     dbms.active_database=nlu.db
+    dbms.allow_upgrade=true
+    
 
 >> 已经包含了3个用户及其知识库配置，具体的用户信息可直接查看数据库 User 或者 chat/tests/test_user.txt
 
@@ -51,33 +53,23 @@
     chat_bank.xls 银行业务（里面有一个详细的自定义多轮对话示例以及两个单节点场景示例）
     chat_hospital.xls 医院事务（业务问答）
 
-> 方式2：需自定义数据库，将其密码设为'train'
->> 若要修改密码：可在 chat/conf/self.conf 中修改 [neo4j] 选项 password)
-
-    neo4j start
 
 ### Step 2 初始化语义知识库
 
 > 2.1 启动语义服务器并保持
 （详见 chat/tests/test_server.py，可命令行运行 python test_server.py）
->> 启动前请将 chat/conf/self.conf 中 [path] 下的 log（问答日志） 和 do_not_know（回答不了的问题日志） 修改为自己的路径
-
-    from chat import server
-  
-    server.start()
-    
-> 2.2 导入测试知识库（若 Step 1 中使用 chat/tests/nlu.db 则直接进入 Step 3）
-（详见 chat/tests/test_graph.py，可命令行运行 python test_graph.py）
-
-    from chat.graph import Database
-    
-    # 初始化实例的时候若指定 userid 参数则会被导入 userid 对应用户，若不指定则导入通用用户
-    kb = Database(password='train')
-    kb.reset(filename='chat.xls')
+>> 启动前请将pip安装的包中（不是这个直接下载的程序包中的）的chat/conf/self.conf 中 [path] 下的 log（问答日志） 和 do_not_know（回答不了的问题日志） 修改为自己的路径；另外需要在这self.conf中将下面这个节点的neo4j的配置信息修改为自己机器上的neo4j的信息，特别是密码；
+[neo4j]
+host = 127.0.0.1
+port = 7474
+name = nlu.db
+user = neo4j
+password = 111111
+charset = utf8
     
 ### Step 3 开始聊天
 
-> （推荐）方式1：启动语义客户端（详见 chat/tests/test_client.py，可命令行运行 python test_client.py）
+> （推荐）方式1：启动这个直接下载的程序包中的语义客户端（详见 chat/tests/test_client.py，可命令行运行 python test_client.py）
 >> 可同时独立运行多个客户端，各个客户端的场景对话不会相互影响。
 
 >> 推荐使用已经提供的 test_client_bank.py 和 test_client_hospital.py 测试
