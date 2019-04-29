@@ -56,7 +56,7 @@
 
 ### Step 2 初始化语义知识库
 
-> 2.1 启动语义服务器并保持
+> 2.1 启动这个下载的程序包中的语义服务器并保持
 （详见 chat/tests/test_server.py，可命令行运行 python test_server.py）
 >> 启动前请将pip安装的包中（不是这个直接下载的程序包中的）的chat/conf/self.conf 中 [path] 下的 log（问答日志） 和 do_not_know（回答不了的问题日志） 修改为自己的路径；另外需要在这self.conf中将下面这个节点的neo4j的配置信息修改为自己机器上的neo4j的信息，特别是密码；
 [neo4j]
