@@ -38,7 +38,7 @@
 ### Step 1 在终端中启动数据库
 
 直接使用 chat/tests/nlu.db 这个已经初始化的数据库
->> 使用方法：对于安装版的 neo4j 手选 nlu.db 所在路径进行连接；对于免安装版本的将 nlu.db 放到 neo4j/data/databases/ 目录下并修改 neo4j/conf/neo4j.conf 文件中，修改完毕后，需要重启neo4j;
+>> 使用方法：对于安装版的 neo4j 手选 nlu.db 所在路径进行连接；对于免安装版本的将 nlu.db 放到 neo4j/data/databases/ 目录下并修改 neo4j/conf/neo4j.conf 文件中，修改完毕后，需要重启neo4j（切换到neo4j的bin文件夹下，ctrl+c停止服务，neo4j console启动服务；）;
 
     # The name of the database to mount
     dbms.active_database=nlu.db
